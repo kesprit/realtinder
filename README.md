@@ -54,3 +54,4 @@ The features are prioritized based on importance and development complexity:
 - Replace AsyncImage with image downloading and caching mechanism to improve performance.
 - Implement local data persistence with a database instead of a JSON file.
 - Integrate real data with APIs network calls.
+- Continue layers separation by managing different models between layers, for example LocalEntity and RemoteEntity.
