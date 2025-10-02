@@ -15,20 +15,22 @@ extension PersonDetailsView {
             self.dependencies = dependencies
         }
         
-        func toggleLike() async {
+        func toggleLike() {
             let currentLiked = personState?.isLiked
             let newLiked: Bool? = currentLiked == true ? nil : true
             personState = PersonState(personId: person.id, isSeen: true, isLiked: newLiked)
-
-            do {
-                try await dependencies.updatePersonStateUseCase.execute(
-                    personId: person.id,
-                    isSeen: true,
-                    isLiked: newLiked
-                )
-            } catch {
-                print("Failed to toggle like: \(error)")
-                personState = PersonState(personId: person.id, isSeen: true, isLiked: currentLiked)
+            Task {
+                do {
+                    
+                    try await dependencies.updatePersonStateUseCase.execute(
+                        personId: person.id,
+                        isSeen: true,
+                        isLiked: newLiked
+                    )
+                } catch {
+                    print("Failed to toggle like: \(error)")
+                    personState = PersonState(personId: person.id, isSeen: true, isLiked: currentLiked)
+                }
             }
         }
 

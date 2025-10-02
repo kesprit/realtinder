@@ -47,16 +47,38 @@ extension DiscoverView {
             }
         }
         
-        func handleSwipe(person: Person, direction: SwipeDirection) async {
-            await markAsSeen(person: person)
-            
-            switch direction {
-            case .left:
-                await dislikePerson(person: person)
-            case .right:
-                await likePerson(person: person)
+        func showProfileTapped(person: Person) {
+            selectedPerson = person
+        }
+        
+        func likeButtonTapped() {
+            guard let firstPerson = persons.first else { return }
+            Task {
+                await likePerson(person: firstPerson)
+                await removeTopCard()
             }
-            await removeTopCard()
+        }
+        
+        func dislikeButtonTapped() {
+            guard let firstPerson = persons.first else { return }
+            Task {
+                await dislikePerson(person: firstPerson)
+                await removeTopCard()
+            }
+        }
+        
+        func handleSwipe(person: Person, direction: SwipeDirection) {
+            Task {
+                await markAsSeen(person: person)
+                
+                switch direction {
+                case .left:
+                    await dislikePerson(person: person)
+                case .right:
+                    await likePerson(person: person)
+                }
+                await removeTopCard()
+            }
         }
         
         func likePerson(person: Person) async {

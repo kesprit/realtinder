@@ -9,30 +9,26 @@ struct PersonDetailsView: View {
     }
 
     var body: some View {
-        ZStack {
+        ZStack(alignment: .topLeading) {
             Color.black.ignoresSafeArea()
             VStack(spacing: 0) {
                 photoViewer
                 personInfo
             }
-        }
-        .navigationBarBackButtonHidden(true)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button {
-                    dismiss()
-                } label: {
-                    Image(systemName: "chevron.down.circle.fill")
-                        .font(.title2)
-                        .foregroundColor(.white)
-                        .shadow(color: .black.opacity(0.3), radius: 2, x: 0, y: 1)
-                }
+            Button {
+                dismiss()
+            } label: {
+                Image(systemName: "xmark")
+                    .font(.title2)
+                    .foregroundColor(.white)
+                    .shadow(color: .black.opacity(0.3), radius: 2, x: 0, y: 1)
             }
+            .padding()
         }
     }
 
     private var photoViewer: some View {
-        ZStack(alignment: .top) {
+        ZStack(alignment: .bottom) {
             GeometryReader { geometry in
                 ZStack {
                     RoundedRectangle(cornerRadius: 0)
@@ -64,11 +60,7 @@ struct PersonDetailsView: View {
                 }
             }
             .frame(height: 500)
-            VStack {
-                photoIndicators
-                    .padding(.top, 8)
-                Spacer()
-            }
+            photoIndicators
         }
     }
 
@@ -81,7 +73,7 @@ struct PersonDetailsView: View {
                     .frame(maxWidth: .infinity)
             }
         }
-        .padding(.horizontal)
+        .padding()
     }
 
     private var personInfo: some View {
@@ -110,11 +102,7 @@ struct PersonDetailsView: View {
 
                     Spacer()
 
-                    Button {
-                        Task {
-                            await viewModel.toggleLike()
-                        }
-                    } label: {
+                    Button(action: viewModel.toggleLike) {
                         Circle()
                             .fill(viewModel.personState?.isLiked == true ? Color.pink : Color.white)
                             .frame(width: 60, height: 60)
@@ -154,6 +142,19 @@ struct PersonDetailsView: View {
 }
 
 #Preview {
-    let person = Person(name: "John Doe", age: 30, photos: [], bio: "")
-    PersonDetailsView(person: person, personState: .init(personId: person.id, isSeen: false, isLiked: false, timestamp: .now))
+    let person = Person(
+        name: "John Doe",
+        age: 30,
+        photos: [],
+        bio: ""
+    )
+    PersonDetailsView(
+        person: person,
+        personState: .init(
+            personId: person.id,
+            isSeen: false,
+            isLiked: false,
+            timestamp: .now
+        )
+    )
 }

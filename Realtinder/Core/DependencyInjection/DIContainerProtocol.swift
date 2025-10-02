@@ -71,4 +71,11 @@ final class DIContainer: DIContainerProtocol {
         
         return typedComponent
     }
+    
+    func removeAll() {
+        lock.lock()
+        defer { lock.unlock() }
+
+        components.removeAll()
+    }
 }

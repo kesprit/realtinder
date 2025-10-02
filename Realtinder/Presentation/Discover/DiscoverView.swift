@@ -65,16 +65,9 @@ struct DiscoverView: View {
                         person: person,
                         personState: viewModel.personStates[person.id],
                         onSwipe: { direction in
-                            Task {
-                                await viewModel.handleSwipe(person: person, direction: direction)
-                            }
+                            viewModel.handleSwipe(person: person, direction: direction)
                         },
-                        onTap: {
-                            viewModel.selectedPerson = person
-                            Task {
-                                await viewModel.markAsSeen(person: person)
-                            }
-                        },
+                        onTap: { viewModel.showProfileTapped(person: person) },
                         isTopCard: index == .zero
                     )
                     .zIndex(Double(1 - index))
@@ -96,15 +89,7 @@ struct DiscoverView: View {
 
     private var actionButtons: some View {
         HStack(spacing: 40) {
-            Button {
-                guard let firstPerson = viewModel.persons.first else { return }
-                Task {
-                    await viewModel.handleSwipe(
-                        person: firstPerson,
-                        direction: .left
-                    )
-                }
-            } label: {
+            Button(action: viewModel.dislikeButtonTapped) {
                 Circle()
                     .fill(Color.white)
                     .frame(width: 60, height: 60)
@@ -116,15 +101,7 @@ struct DiscoverView: View {
                     .shadow(color: .gray.opacity(0.1), radius: 5)
             }
 
-            Button {
-                guard let firstPerson = viewModel.persons.first else { return }
-                Task {
-                    await viewModel.handleSwipe(
-                        person: firstPerson,
-                        direction: .right
-                    )
-                }
-            } label: {
+            Button(action: viewModel.likeButtonTapped) {
                 Circle()
                     .fill(Color.white)
                     .frame(width: 70, height: 70)
