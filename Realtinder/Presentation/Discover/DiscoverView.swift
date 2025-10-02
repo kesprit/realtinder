@@ -23,7 +23,10 @@ struct DiscoverView: View {
                 .padding()
             }
             .sheet(item: $viewModel.selectedPerson) { person in
-                PersonDetailsView()
+                PersonDetailsView(
+                    person: person,
+                    personState: viewModel.personStates[person.id]
+                )
                 .onDisappear {
                     Task {
                         await viewModel.refreshPersonState(personId: person.id)
