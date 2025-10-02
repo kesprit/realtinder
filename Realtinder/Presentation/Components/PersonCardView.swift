@@ -26,7 +26,7 @@ struct PersonCardView: View {
                 .padding()
         }
         .clipShape(RoundedRectangle(cornerRadius: 20))
-        .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 5)
+        .shadow(color: .gray.opacity(0.2), radius: 10)
         .offset(offset)
         .rotationEffect(.degrees(Double(offset.width / 20)))
         .overlay(SwipeIndicators(offset: offset))

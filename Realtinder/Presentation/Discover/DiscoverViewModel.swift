@@ -37,8 +37,6 @@ extension DiscoverView {
                 let newPersons = try await dependencies.fetchPersonsUseCase.execute(page: currentPage, pageSize: pageSize)
                 persons.append(contentsOf: newPersons)
                 currentPage += 1
-                
-                // Load states for new persons
                 for person in newPersons {
                     if let state = try await dependencies.getPersonStateUseCase.execute(personId: person.id) {
                         personStates[person.id] = state
@@ -58,15 +56,21 @@ extension DiscoverView {
             case .right:
                 await likePerson(person: person)
             }
-            
-            // Remove the card after swipe
             await removeTopCard()
         }
         
         func likePerson(person: Person) async {
             do {
-                try await dependencies.updatePersonStateUseCase.execute(personId: person.id, isSeen: true, isLiked: true)
-                personStates[person.id] = PersonState(personId: person.id, isSeen: true, isLiked: true)
+                try await dependencies.updatePersonStateUseCase.execute(
+                    personId: person.id,
+                    isSeen: true,
+                    isLiked: true
+                )
+                personStates[person.id] = PersonState(
+                    personId: person.id,
+                    isSeen: true,
+                    isLiked: true
+                )
             } catch {
                 print("Failed to like person: \(error)")
             }
@@ -74,8 +78,16 @@ extension DiscoverView {
         
         func dislikePerson(person: Person) async {
             do {
-                try await dependencies.updatePersonStateUseCase.execute(personId: person.id, isSeen: true, isLiked: false)
-                personStates[person.id] = PersonState(personId: person.id, isSeen: true, isLiked: false)
+                try await dependencies.updatePersonStateUseCase.execute(
+                    personId: person.id,
+                    isSeen: true,
+                    isLiked: false
+                )
+                personStates[person.id] = PersonState(
+                    personId: person.id,
+                    isSeen: true,
+                    isLiked: false
+                )
             } catch {
                 print("Failed to dislike person: \(error)")
             }

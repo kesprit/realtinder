@@ -89,7 +89,7 @@ final class MockRemotePersonDataSource: RemotePersonDataSource {
     ]
 
     func fetchPersons(page: Int, pageSize: Int) async throws -> [Person] {
-        try await Task.sleep(for: .seconds(5))
+        try await Task.sleep(for: .seconds(1))
         let startIndex = page * pageSize
         var persons: [Person] = []
 

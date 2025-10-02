@@ -7,7 +7,7 @@ struct DiscoverView: View {
         NavigationStack {
             ZStack {
                 LinearGradient(
-                    colors: [Color(red: 0.95, green: 0.95, blue: 0.97), Color.white],
+                    colors: [Color.pink.opacity(0.1), Color.white],
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing
                 )
@@ -75,7 +75,7 @@ struct DiscoverView: View {
                                 await viewModel.markAsSeen(person: person)
                             }
                         },
-                        isTopCard: index == 0
+                        isTopCard: index == .zero
                     )
                     .zIndex(Double(1 - index))
                     .offset(y: index == 1 ? 10 : 0)
@@ -113,7 +113,7 @@ struct DiscoverView: View {
                             .font(.title2)
                             .foregroundColor(.red)
                     )
-                    .shadow(color: .gray.opacity(0.3), radius: 5, x: 0, y: 2)
+                    .shadow(color: .gray.opacity(0.1), radius: 5)
             }
 
             Button {
@@ -131,12 +131,12 @@ struct DiscoverView: View {
                     .overlay(
                         Image(systemName: "heart.fill")
                             .font(.title)
-                            .foregroundColor(.pink)
+                            .foregroundColor(.green)
                     )
-                    .shadow(color: .gray.opacity(0.3), radius: 5, x: 0, y: 2)
+                    .shadow(color: .gray.opacity(0.1), radius: 5)
             }
         }
-        .padding(.bottom, 20)
+        .padding(20)
     }
 }
 

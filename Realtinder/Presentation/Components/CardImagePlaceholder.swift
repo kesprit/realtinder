@@ -13,13 +13,11 @@ struct CardImagePlaceholder: View {
                 case .success(let image):
                     image
                         .resizable()
-                        .aspectRatio(contentMode: .fill)
                 default:
                     fallbackPlaceholder
                 }
             }
-        }
-    }
+        }    }
     
     private var loadingPlaceholder: some View {
         ZStack {
