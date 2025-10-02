@@ -19,11 +19,25 @@ final class DIConfig {
     
     private static func configureCore(container: DIContainerProtocol) { }
     
-    private static func configureDataSources(container: DIContainerProtocol) { }
+    private static func configureDataSources(container: DIContainerProtocol) {
+        container
+            .register(type: RemotePersonDataSource.self, component: MockRemotePersonDataSource())
+        container
+            .register(type: LocalPersonStateDataSource.self, component: LocalPersonStateDataSourceImpl())
+    }
     
-    private static func configureRepositories(container: DIContainerProtocol) { }
+    private static func configureRepositories(container: DIContainerProtocol) {
+        container.register(type: PersonRepository.self, component: PersonRepositoryImpl())
+    }
     
-    private static func configureUseCases(container: DIContainerProtocol) { }
+    private static func configureUseCases(container: DIContainerProtocol) {
+        container
+            .register(type: FetchPersonsUseCase.self, component: FetchPersonsUseCaseImpl())
+        container
+            .register(type: GetPersonStateUseCase.self, component: GetPersonStateUseCaseimpl())
+        container
+            .register(type: UpdatePersonStateUseCase.self, component: UpdatePersonStateUseCaseImpl())
+    }
 }
 
 @propertyWrapper
